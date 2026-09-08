@@ -21,3 +21,10 @@ committing, especially in notebook outputs and config files.
 
 Stale cross-reference — same class of issue as a dead link. If cleaning up `copilot-instructions.md`,
 either restore the missing content or remove the reference.
+
+## Standard procedure
+
+This is a static documentation/notebook portfolio, no build or CI pipeline. Before editing any
+project's README/description: open the actual notebook or code it describes and re-derive the
+specific number/technique being claimed (per the rule above) rather than trusting the existing text
+or memory. There's no automated check for this — it's a manual verification step every time.
