@@ -18,7 +18,7 @@
 ![Scikit-learn](https://img.shields.io/badge/Scikit--learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white)
 ![CodaBench](https://img.shields.io/badge/CodaBench-Competition-blueviolet?style=flat-square)
 
-CodaBench class competition predicting 30-day hospital readmissions on a Synthea-generated EHR dataset (587,801 train rows, 125,958 dev rows). Compared 9 algorithms, submitted a Random Forest tuned for class imbalance. Final: 13th/35 on the held-out test (ROC AUC 0.858), 5th/40 on dev (0.901).
+CodaBench class competition predicting 30-day hospital readmissions on a Synthea-generated EHR dataset (587,801 train rows, 125,958 dev rows). Compared 9 algorithms, submitted a Random Forest tuned for class imbalance. Final: ROC AUC 0.858 on the held-out test, 0.901 on dev.
 
 ---
 

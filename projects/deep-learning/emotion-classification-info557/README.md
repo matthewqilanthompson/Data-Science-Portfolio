@@ -1,3 +1,4 @@
+<!-- lint-ok: leaderboard-rank | leaderboard screenshot at ./images/leaderboard-emotion-test.png; the standings are the evidence that dev-leaders overfit and did not submit on test -->
 [← Back to Deep Learning Projects](../README.md)
 
 # Multi-Label Emotion Classification with Transformer Fine-Tuning

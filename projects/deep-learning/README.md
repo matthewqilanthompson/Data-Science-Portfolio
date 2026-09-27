@@ -19,7 +19,7 @@
 ![Keras](https://img.shields.io/badge/Keras-D00000?style=flat-square&logo=keras&logoColor=white)
 ![Hugging Face](https://img.shields.io/badge/🤗-Transformers-yellow?style=flat-square)
 
-Multi-label emotion classification on a 14-class GoEmotions Reddit subset. Submitted a from-scratch Conv1D 5-seed ensemble that scored 8th/15 (micro F1 0.672) on the held-out test with a 5-point dev-to-test gap (the third smallest on the board). The post-grading study compares the submitted model against GloVe, frozen DistilBERT, fine-tuned bert_tiny, and fine-tuned RoBERTa to isolate the actual cause of the rare-class wall: end-to-end fine-tuning, not model scale.
+Multi-label emotion classification on a 14-class GoEmotions Reddit subset. Submitted a from-scratch Conv1D 5-seed ensemble that scored micro F1 0.672 on the held-out test with only a 5-point dev-to-test gap. The post-grading study compares the submitted model against GloVe, frozen DistilBERT, fine-tuned bert_tiny, and fine-tuned RoBERTa to isolate the actual cause of the rare-class wall: end-to-end fine-tuning, not model scale.
 
 ---
 
