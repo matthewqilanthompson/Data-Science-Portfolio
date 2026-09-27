@@ -13,9 +13,16 @@ actual code or data it describes — don't restate a plausible-sounding claim fr
 
 ## Never commit secrets or hardcoded local paths
 
-`8fdfb29` had to strip a leaked Codabench `secret_key` plus hardcoded local paths; `cab757d` was a
-separate instance of stripping a hardcoded user path. Grep for secrets/absolute-paths before
-committing, especially in notebook outputs and config files.
+This has happened twice in this repo: once a competition-platform API key committed alongside
+hardcoded local paths, and once a hardcoded user path on its own. Both were removed in follow-up
+commits.
+
+⚠️ Removing a secret in a later commit does NOT remove it from git history. It stays readable in the
+earlier commits to anyone who clones the repo, so the only fix that actually works is to **rotate the
+credential**. Treat any secret that reaches a public remote as compromised from that moment.
+
+Grep for secrets and absolute paths before committing, especially in notebook outputs and config
+files.
 
 ## `.github/copilot-instructions.md` references a `WARP.md` that doesn't exist
 
