@@ -7,7 +7,10 @@
 
 ---
 
-**Highlights**: Third Normal Form (3NF) database design and 6 analytical SQL reports across **53,346 patient encounters**, surfacing a provider workload imbalance and a high-risk patient cohort. And a Random Forest predicting 30-day hospital readmission at **ROC AUC 0.858** on the final held-out test, holding from 0.901 on the dev-phase leaderboard, across 587,801 training rows of synthetic electronic health record (EHR) data. ROC AUC is a classifier ranking score where 1.0 is perfect.
+**Highlights**
+
+- **Healthcare SQL**: Third Normal Form (3NF) database design and 6 analytical SQL reports across **53,346 patient encounters**. The reports surfaced a provider workload imbalance and a high-risk patient cohort.
+- **Readmission model**: a Random Forest predicting 30-day hospital readmission at **ROC AUC 0.858** on the final held-out test, trained on 587,801 rows of synthetic electronic health record (EHR) data. ROC AUC is a ranking score where 1.0 is perfect, so 0.858 means the model ranks a high-risk patient above a low-risk one about 86% of the time.
 
 **Navigation**: [Projects](#featured-projects) • [Skills](#skills) • [Connect](#connect)
 
@@ -39,11 +42,17 @@ Designed Third Normal Form (3NF) schemas across 6 entities for 1,171 patients an
 
 **30-day hospital readmission prediction** · _Graduate project · University of Arizona_
 
-Random Forest classifier with patient-frequency encoding on synthetic electronic health record (EHR) data: 587,801 training encounters and 125,958 dev encounters. Scored ROC AUC 0.901 on the dev-phase leaderboard (5th of 40) and 0.858 on the final held-out test (13th of 35) after comparing 9 algorithms with stratified cross-validation.
+Random Forest classifier with patient-frequency encoding on synthetic electronic health record (EHR) data: 587,801 training encounters and 125,958 dev encounters.
 
-**Why Random Forest**: EHR data is tabular with mixed numeric and categorical features, has missing medication counts, and shows class imbalance, all of which Random Forest handles natively. RF also surfaces feature importance and proved more stable across cross-validation folds than Gradient Boosting in a competition setting.
+It scored ROC AUC 0.901 in the dev phase and 0.858 on the final held-out test, after comparing 9 algorithms with stratified cross-validation.
 
-**Outcome**: ROC AUC 0.858 on the held-out test means the model correctly ranks a high-risk patient above a low-risk one about 86% of the time. The 5-point drop from the dev leaderboard (0.901) to the test (0.858) was honest generalization: cross-validated AUC (~0.86) predicted the test result almost exactly, so the model held up on unseen data while higher-dev-scoring competitors dropped further.
+**Why Random Forest**: EHR data is tabular, mixes numeric and categorical features, has missing medication counts, and is class-imbalanced. Random Forest handles all of that natively.
+
+It also surfaces feature importance, and it proved more stable across cross-validation folds than Gradient Boosting did.
+
+**Outcome**: ROC AUC 0.858 on the held-out test means the model ranks a high-risk patient above a low-risk one about 86% of the time.
+
+The score dropped from 0.901 in the dev phase to 0.858 on the test. That drop is honest generalization rather than a failure: the cross-validated estimate predicted the test result almost exactly, so the model held up on data it had never seen.
 
 **Tech**: Python • Scikit-learn • Pandas • Random Forest • Stratified Cross-Validation · [Read the project →](./projects/data-science/foundation-of-data-science/)
 
@@ -53,11 +62,17 @@ Random Forest classifier with patient-frequency encoding on synthetic electronic
 
 **14-label text classification competition** · _Graduate project · University of Arizona_
 
-Placed 8th/15 on the test set (F1-score 0.672, a balanced precision/recall metric where 1.0 is perfect) with the 3rd-tightest dev-to-test generalization gap (-0.05) on the leaderboard. Built a 5-seed 1D convolutional neural network (Conv1D / CNN) on a 14-class GoEmotions subset of Reddit text with calibrated binary cross-entropy (BCE) loss and label smoothing.
+Scored F1 0.672 on the test set, with a dev-to-test gap of only -0.05. F1 is a balanced precision/recall metric where 1.0 is perfect.
+
+Built a 5-seed 1D convolutional neural network (Conv1D / CNN) on a 14-class GoEmotions subset of Reddit text, with calibrated binary cross-entropy (BCE) loss and label smoothing.
 
 **Why Conv1D, then RoBERTa fine-tuning in the post-grading study**: Reddit emotion cues live in bigrams and trigrams, which Conv1D with kernel size 3 captures cleanly (kernel 3 won the dev sweep over 5 and 7). The submitted Conv1D scored 0.65 dev F1. A follow-up 4-variant study, run after grading and never submitted (the course restricted entries to taught techniques), showed end-to-end fine-tuning of RoBERTa, not pretraining or model size alone, was the lever that reached 0.83 dev F1.
 
-**Outcome**: The submitted model finished 8th/15 with the 3rd-tightest dev-to-test gap, validating calibration-aware training over dev-score chasing. It never got the rare classes off the floor, though: even 5x duplication of the rarest examples only nudged anger to F1 0.154 on test, while annoyance and disapproval stayed at zero. The post-grading study confirmed that was a representation problem, not an architecture one: end-to-end RoBERTa fine-tuning started predicting the classes the submitted model left at zero and lifted dev F1 to ~0.83 (a hypothetical top-3 placement).
+**Outcome**: the submitted model held its score from dev to test, with a gap of only -0.05. That is what calibration-aware training buys, and it matters more than chasing a dev score.
+
+It never got the rare classes off the floor, though. Even 5x duplication of the rarest examples only nudged anger to F1 0.154 on test, while annoyance and disapproval stayed at zero.
+
+The post-grading study showed that was a representation problem rather than an architecture one. End-to-end RoBERTa fine-tuning started predicting the classes the submitted model left at zero, and lifted dev F1 to about 0.83.
 
 **Tech**: Python • Keras / TensorFlow • Conv1D CNN • 5-seed ensemble • 5x rare-class duplication • RoBERTa fine-tuning (post-grading study) · [Read the project →](./projects/deep-learning/emotion-classification-info557/)
 
