@@ -72,7 +72,7 @@ jupyter lab index.ipynb
 
 - **Docker containerization**: Database systems projects use Docker for MySQL setup
 - **SQL backups**: Check `database-backup/` directories for schema, sample data, and analytics SQL files
-- **Healthcare data**: Projects use 67MB+ Synthea synthetic EHR datasets across 6 normalized entities
+- **Healthcare data**: Projects use ~65MB Synthea synthetic EHR datasets across 6 normalized entities
 - **Schema pattern**: Three-file backup structure: `*_schema.sql`, `*_sample_data.sql`, `*_analytics_reports.sql`
 
 ## Project-Specific Conventions
