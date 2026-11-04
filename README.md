@@ -80,13 +80,13 @@ The post-grading study showed that was a representation problem rather than an a
 
 ### [Trait-Based Prediction of Animal Taxa](./projects/data-science/data-mining-final-project/)
 
-**Machine-learning classification of evolutionary traits across 1,087 animal families** · _Graduate project · University of Arizona_
+**Machine-learning classification of animal taxa from evolutionary traits (1,087 families; 84 phylum-level rate estimates)** · _Graduate project · University of Arizona_
 
-Classification across 5 superphyla (Ecdysozoa, Lophotrochozoa, Deuterostomia, Basal Metazoa, Basal Bilateria) comparing binary trait presence/absence vs. continuous evolutionary origin rates. The headline finding: data representation (evolutionary rates vs. sparse binary presence) drove accuracy more than model choice did. Used SHAP (SHapley Additive exPlanations) for feature importance and balanced metrics to handle class imbalance.
+Classification across 5 superphyla (Ecdysozoa, Lophotrochozoa, Deuterostomia, Basal Metazoa, Basal Bilateria) comparing binary trait presence/absence vs. continuous evolutionary origin rates. The headline finding: the best model on evolutionary-rate features outperformed every model on binary presence/absence. Used SHAP (SHapley Additive exPlanations) for feature importance and balanced metrics to handle class imbalance.
 
-**Why Logistic Regression over Random Forest and Decision Trees**: Evolutionary-rate features were continuous and approximately linear with respect to taxonomic class, which Logistic Regression's decision boundary fits well. With ~1,087 families and class imbalance across 5 superphyla, Logistic Regression's calibrated probabilities and interpretable per-trait coefficients gave stronger signal than tree-based models, which over-fit on sparse rare-class samples.
+**Why Logistic Regression over Random Forest and Decision Trees**: Evolutionary-rate features were continuous and approximately linear with respect to taxonomic class, which Logistic Regression's decision boundary fits well. With only 84 phylum-level rate estimates and class imbalance across 5 superphyla, Logistic Regression's calibrated probabilities and interpretable per-trait coefficients gave stronger signal than tree-based models, which over-fit on sparse rare-class samples.
 
-**Outcome**: the best model (Logistic Regression on evolutionary-rate data) reached macro F1 0.31 and balanced accuracy 0.32 on the 5-class taxonomy (chance ≈ 0.20), versus macro F1 ~0.13 on the binary data. That is real but limited signal from sexually-selected traits. The deeper finding: data representation (continuous evolutionary rates vs. sparse binary presence) mattered more than model choice. The method generalizes to any trait dataset where evolutionary rates are available.
+**Outcome**: the best model (Logistic Regression on evolutionary-rate data) reached macro F1 0.31 and balanced accuracy 0.32 on the 5-class taxonomy (chance ≈ 0.20), versus macro F1 ~0.13 on the binary data. That is limited signal: the rate-data test set had only 28 rows, and a random-forest 5-fold cross-validation on the same data scored macro F1 0.19, near chance. The best rate-data model still outperformed every binary-data model.
 
 **Tech**: Python • Scikit-learn • SHAP • Stratified K-fold cross-validation · [Read the project →](./projects/data-science/data-mining-final-project/)
 
@@ -120,7 +120,7 @@ Classification across 5 superphyla (Ecdysozoa, Lophotrochozoa, Deuterostomia, Ba
 | Domain | Where applied |
 |---|---|
 | **Healthcare Analytics** | Readmission prediction (synthetic electronic health record data, ROC AUC 0.858 on held-out test, 0.901 on dev) and Third Normal Form (3NF) database design (1,171 patients, 53,346 encounters, 6 documented analytical SQL reports) |
-| **Biological / Life-sciences Data** | Trait-based classification across 1,087 animal families (Master's project) and quantitative research at Oklahoma State University (NSF ON-RaMP, grasshopper coloration and behavior) and Maryland Sea Grant (NSF REU, marine microbial abundance) |
+| **Biological / Life-sciences Data** | Trait-based classification of animal taxa (Master's project) and quantitative research at Oklahoma State University (NSF ON-RaMP, grasshopper coloration and behavior) and Maryland Sea Grant (NSF REU, marine microbial abundance) |
 
 ---
 

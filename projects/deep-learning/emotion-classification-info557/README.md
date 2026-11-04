@@ -20,7 +20,7 @@ I finished **8th of 15** on the final test leaderboard with F1 0.672, up from 10
 
 | Phase        | Rank  | Micro F1 | Notes                                             |
 | ------------ | ----- | -------- | -------------------------------------------------- |
-| Development  | 10/18 | 0.7218   | from-scratch CNN, course-techniques-only           |
+| Development  | 10/18 (self-reported; a pre-close snapshot in `decisions.txt` shows 9th) | 0.7218   | from-scratch CNN, course-techniques-only           |
 | Test (final) | 8/15  | 0.672    | 0.050 dev-to-test gap, third smallest on the board |
 
 ![CodaBench test-phase leaderboard, competition 13676](./images/leaderboard-emotion-test.png)
@@ -39,8 +39,8 @@ The two people who topped the dev leaderboard (0.923 and 0.826) both didn't subm
 | **Ensembling** | 5-seed model averaging to stabilize single-seed variance (~10 F1 points) |
 | **Loss / calibration** | BCE + label smoothing, output bias from class priors, untuned 0.5 threshold to avoid dev-leakage |
 | **Data augmentation** | In-class word swap (Wei & Zou 2019 EDA), targeted duplication on rare classes |
-| **Honest evaluation** | Checkpoint-reload inference pipeline (`check.py`) run separately from training-time logs |
-| **Transfer learning (post-grading)** | Fine-tuning DistilBERT, bert_tiny, and RoBERTa-base with Hugging Face `transformers` |
+| **Honest evaluation** | Checkpoint-reload inference pipeline (`experiments/check_dev_f1.py`) run separately from training-time logs |
+| **Transfer learning (post-grading)** | Frozen RoBERTa-base features, plus fine-tuning bert_tiny and RoBERTa-base with Hugging Face `transformers` |
 
 ---
 
@@ -89,12 +89,12 @@ Three classes wouldn't budge off F1 = 0.000: anger, annoyance, disapproval. I tr
 
 About a week before submission I realized my training-time logged F1 was lying to me: training reported 0.7218, but I had no way to know if that number was what I'd actually see on the leaderboard.
 
-I wrote a separate `check.py` that loads the saved model checkpoint, runs the exact same inference pipeline used to generate the submission, and computes F1 on the labeled dev set.
+I wrote a separate `check_dev_f1.py` that loads the saved model checkpoint, runs the exact same inference pipeline used to generate the submission, and computes F1 on the labeled dev set.
 
 | Metric | Value | vs. actual test F1 |
 | --- | --- | --- |
 | Training-time logged F1 | 0.7218 | over-predicted by 5 points |
-| `check.py` re-evaluation | 0.6506 | under-predicted by 2 points |
+| `check_dev_f1.py` re-evaluation | 0.6506 | under-predicted by 2 points |
 | Actual test F1 | 0.672 | n/a |
 
 This is now my default for any ML project: save the checkpoint, run the production inference path on labeled dev, and trust that number over the training logs.
@@ -116,7 +116,7 @@ This is now my default for any ML project: save the checkpoint, run the producti
 | curiosity   | 75          | 0.500   |                                   |
 | admiration  | 145         | 0.463   |                                   |
 | confusion   | 39          | 0.444   |                                   |
-| anger       | 26          | 0.154   | finally off zero (was 0 on dev)  |
+| anger       | 26          | 0.154   | off zero after 5x duplication (0 before) |
 | annoyance   | 24          | 0.000   | vocab-level wall, never solved   |
 | disapproval | 42          | 0.000   | vocab-level wall, never solved   |
 
@@ -134,7 +134,7 @@ Scripts are in [`experiments/`](./experiments/).
 | ------------------------------ | ------------------------ | ---------- | ------ | ----------------- |
 | from-scratch CNN (submitted)   | random-init, 128d        | yes        | 0.6506 | baseline           |
 | GloVe 100d                     | pretrained word vectors  | yes        | 0.6588 | +0.008             |
-| DistilBERT frozen              | DistilBERT features      | head only  | 0.6168 | -0.034             |
+| RoBERTa-base frozen            | RoBERTa-base features    | head only  | 0.6168 | -0.034             |
 | bert_tiny fine-tuned            | small BERT, full         | full       | 0.7371 | +0.087             |
 | RoBERTa-base fine-tuned         | RoBERTa-base, full       | full       | 0.8255 | +0.175             |
 
@@ -144,22 +144,22 @@ All numbers come from `experiments/compare.py`, which loads each saved ensemble 
 
 GloVe didn't really help. I expected a real improvement over random init, since GloVe knows words like "fuming" and "irked" that my random-init embeddings had basically no chance of learning from 1-3 training occurrences. But the static embeddings only nudged F1 by 0.008. Knowing the words isn't the same as connecting them to the right emotion under the supervision the model actually had.
 
-The bigger surprise was DistilBERT-frozen scoring 3.4 points *below* the from-scratch baseline, the wrong direction. My read: frozen DistilBERT representations encode generic sentence semantics that aren't aligned to fine-grained emotion labels, and with the encoder frozen there's no path for gradient updates to fix that.
+The bigger surprise was RoBERTa-base-frozen scoring 3.4 points *below* the from-scratch baseline, the wrong direction. My read: frozen RoBERTa-base representations encode generic sentence semantics that aren't aligned to fine-grained emotion labels, and with the encoder frozen there's no path for gradient updates to fix that.
 
 The variants that broke through were the two end-to-end fine-tuned ones. bert_tiny, a very small BERT, beat my from-scratch CNN by 8.7 F1 just by letting gradients flow back through the encoder. Going from there up to RoBERTa-base added another 8.8 F1. The bigger jump was the first one (frozen to trainable), not the model-size jump, which surprised me. I had been assuming model scale would be the dominant factor.
 
-The most concrete vindication: the three classes I never got off zero in the competition (anger, annoyance, disapproval) all started predicting under the fine-tuned variants.
+The most concrete vindication: the rare classes the competition model struggled with (annoyance and disapproval never got off zero; anger only reached 0.154 on test) all started predicting under the fine-tuned variants.
 
 <details>
 <summary>Per-class dev F1 for the three rare classes</summary>
 
-| Class       | from-scratch | GloVe | DistilBERT-frozen | bert_tiny FT | RoBERTa FT |
+| Class       | from-scratch | GloVe | RoBERTa-base-frozen | bert_tiny FT | RoBERTa FT |
 | ----------- | ------------ | ----- | ------------------ | ------------ | ---------- |
 | anger       | 0.286        | 0.286 | 0.000               | 0.222        | 0.615      |
 | annoyance   | 0.000        | 0.000 | 0.000               | 0.500        | 0.444      |
 | disapproval | 0.000        | 0.000 | 0.000               | 0.333        | 0.471      |
 
-Even bert_tiny rescued anger, annoyance, and disapproval; GloVe and DistilBERT-frozen kept them stuck at zero. Full 14-class table reproducible via `experiments/compare.py`.
+Even bert_tiny got annoyance and disapproval off zero; the from-scratch and GloVe models left those two at zero, and frozen RoBERTa-base left all three at zero. Full 14-class table reproducible via `experiments/compare.py`.
 
 </details>
 
@@ -167,7 +167,7 @@ Even bert_tiny rescued anger, annoyance, and disapproval; GloVe and DistilBERT-f
 
 ## What I'd Do Differently
 
-The biggest thing is I should have leaned on the honest `check.py` number from the start. I built that script roughly a week before submission, which means almost the entire dev-tuning process before that was happening against an inflated metric. If I'd had the honest number from week one, I'd have stopped chasing improvements that were really just dev-overfitting tells, and probably ended up with a better submission.
+The biggest thing is I should have leaned on the honest `check_dev_f1.py` number from the start. I built that script roughly a week before submission, which means almost the entire dev-tuning process before that was happening against an inflated metric. If I'd had the honest number from week one, I'd have stopped chasing improvements that were really just dev-overfitting tells, and probably ended up with a better submission.
 
 The other thing is I now know exactly what fixes the rare-class wall: fine-tuning a small pretrained encoder. If the next version of this assignment loosens the no-pretrained constraint, I'd go straight to fine-tuning bert_tiny or similar rather than spending dev-set time on augmentation tricks. The marginal F1 from augmentation was real but small; the marginal F1 from fine-tuning was about 8x larger.
 
@@ -181,8 +181,8 @@ The other thing is I now know exactly what fixes the rare-class wall: fine-tunin
 | **Model** | Conv1D CNN, 128-d random-init embeddings, 5-seed ensemble |
 | **Loss / threshold** | Binary cross-entropy with 0.05 label smoothing, fixed 0.5 threshold |
 | **Augmentation** | In-class word swap (Wei & Zou 2019 EDA), 5x duplication on rare-class examples |
-| **Evaluation** | Multi-label micro F1 with a `check.py`-style honest inference pipeline |
-| **Post-grading study** | PyTorch + `transformers` for GloVe / DistilBERT-frozen / bert_tiny / RoBERTa fine-tuning |
+| **Evaluation** | Multi-label micro F1 with a `check_dev_f1.py`-style honest inference pipeline |
+| **Post-grading study** | PyTorch + `transformers` for GloVe / RoBERTa-base-frozen / bert_tiny / RoBERTa fine-tuning |
 
 ---
 

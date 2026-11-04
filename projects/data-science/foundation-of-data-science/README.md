@@ -19,7 +19,7 @@ Built a Random Forest model to predict 30-day hospital readmission risk from syn
 
 | Phase           | Ranking    | ROC AUC | Participants |
 | --------------- | ---------- | ------- | ------------ |
-| **Development** | 5th place  | 0.9011  | 40           |
+| **Development** | 5th place (self-reported; dev board is login-gated, no screenshot) | 0.9011  | 40           |
 | **Testing**     | 13th place | 0.8581  | 35           |
 
 ![CodaBench test-phase leaderboard, competition 6813](./images/leaderboard-readmission-test.png)
@@ -63,7 +63,7 @@ Final project for INFO 511 (Foundation of Data Science): a CodaBench class compe
 
 | Decision                       | Reasoning                                                                |
 | ------------------------------- | ------------------------------------------------------------------------- |
-| **Patient frequency encoding** | Transformed `patient_id` into encounter count per patient (key predictor); an earlier attempt that grouped on `patient_id` directly scored only ~0.69 |
+| **Patient frequency encoding** | Transformed `patient_id` into encounter count per patient (a legitimate replacement predictor); an earlier attempt that grouped on `patient_id` directly scored only ~0.69 |
 | **Dropped zip code**           | Not meaningful without a distance calculation, and didn't correlate with readmission |
 | **Dropped symptom columns**    | `has_chronic_pain`, `has_hypertension`, `has_diabetes`, `has_asthma`, `has_depression` all had a single identical value, so uninformative |
 | **Mean imputation**            | Handled missing medication counts, procedure costs, pain scores, and patient height; appropriate given the large sample size |

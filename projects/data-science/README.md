@@ -31,7 +31,7 @@ CodaBench class competition predicting 30-day hospital readmissions on a Synthea
 ![SHAP](https://img.shields.io/badge/SHAP-Explainability-FF6B6B?style=flat-square)
 ![Quarto](https://img.shields.io/badge/Quarto-Website-75AADB?style=flat-square&logo=quarto&logoColor=white)
 
-ML classification on 1,087 animal families across 5 superphyla, using sexually selected traits as features. Compared binary presence/absence vs. evolutionary origin rates as data representations; SHAP analysis identified Visual, Competition, and Auditory traits as the strongest predictors. Logistic Regression beat tree-based models, reaching macro F1 0.31 and balanced accuracy 0.32 on the evolutionary-rate data (vs. macro F1 ~0.13 on binary; 5-class chance ≈ 0.20).
+ML classification of animal taxa across 5 superphyla (1,087 families in the binary data; 84 phylum-level rate estimates), using sexually selected traits as features. Compared binary presence/absence vs. evolutionary origin rates as data representations; SHAP analysis identified Visual, Competition, and Auditory traits as the strongest predictors. Logistic Regression beat tree-based models, reaching macro F1 0.31 and balanced accuracy 0.32 on the evolutionary-rate data (vs. macro F1 ~0.13 on binary; 5-class chance ≈ 0.20).
 
 ---
 

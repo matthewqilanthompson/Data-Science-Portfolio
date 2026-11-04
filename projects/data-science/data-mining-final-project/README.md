@@ -7,7 +7,7 @@
 ![SHAP](https://img.shields.io/badge/SHAP-Explainability-FF6B6B?style=flat-square)
 ![Quarto](https://img.shields.io/badge/Quarto-Website-75AADB?style=flat-square&logo=quarto&logoColor=white)
 
-Compared two ways of encoding animal trait data, binary presence/absence vs. evolutionary origin rates, to see which one better predicts an animal's higher-level taxonomic group from sexually selected traits, across 1,087 families.
+Compared two ways of encoding animal trait data, binary presence/absence vs. evolutionary origin rates, to see which one better predicts an animal's higher-level taxonomic group from sexually selected traits, using 1,087 families (binary data) and 84 phylum-level rate estimates.
 
 **[View Live Website](https://info-523-su25.github.io/final-project-thompson/)** | **[Analysis Notebook](./index.ipynb)**
 
@@ -17,9 +17,9 @@ Compared two ways of encoding animal trait data, binary presence/absence vs. evo
 
 **Can sexually selected traits predict higher-level taxonomic groups (superphyla), and which traits matter most?**
 
-**Evolutionary-rate features beat binary presence/absence by 2.4x on macro F1 (0.31 vs 0.13), a modest but real signal above the ~0.20 chance baseline for 5 classes.** Best model: Logistic Regression on rate data (macro F1 0.31, balanced accuracy 0.32).
+**Evolutionary-rate features scored higher than binary presence/absence on macro F1 (0.31 vs 0.13), though on a much smaller test set (28 rows); a random-forest 5-fold cross-validation on the rate data scored 0.19, near the ~0.20 chance baseline for 5 classes, so the signal is limited.** Best model: Logistic Regression on rate data (macro F1 0.31, balanced accuracy 0.32).
 
-This is where biology and data science meet: the features aren't generic columns, they're domain-informed trait categories (sexually selected, visual, competition, auditory, female choice), and that domain framing is what let SHAP surface a real signal instead of noise.
+This is where biology and data science meet: the features aren't generic columns, they're domain-informed trait categories (sexually selected, visual, competition, auditory, female choice), and that domain framing is what guided how the SHAP results were interpreted.
 
 ---
 
@@ -59,7 +59,7 @@ On the binary data, SHAP showed the model leaned almost entirely on one feature 
 | Finding | Detail |
 |---|---|
 | **Evolutionary rates > Binary data** | Continuous origin rates gave a stronger signal than sparse binary presence/absence data |
-| **Best model: macro F1 0.31, balanced accuracy 0.32** | Logistic Regression on evolutionary-rate data, vs. macro F1 0.13 on binary data (a 2.4x macro-F1 edge). Raw accuracy was 0.50, inflated by the ~84% Arthropoda imbalance, which is why balanced metrics are reported instead. |
+| **Best model: macro F1 0.31, balanced accuracy 0.32** | Logistic Regression on evolutionary-rate data, vs. macro F1 0.13 on binary data (different, larger test set). Raw accuracy was 0.50, inflated by the ~84% Arthropoda imbalance, which is why balanced metrics are reported instead. |
 | **Key predictors** | Visual, Competition, and Auditory traits (identified via SHAP) |
 | **Class imbalance matters** | Balanced accuracy and macro F1 used instead of raw accuracy throughout |
 

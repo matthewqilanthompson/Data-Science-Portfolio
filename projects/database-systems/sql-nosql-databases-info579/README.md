@@ -31,7 +31,7 @@ Built a normalized MySQL warehouse from ~65MB of synthetic EHR data (1,171 patie
 | **Advanced queries**  | CTEs (Common Table Expressions), correlated subqueries                |
 | **Aggregation**       | `GROUP BY` + `HAVING`, `CASE` for categorization                      |
 | **ETL**               | Batched parameterized `INSERT` (`executemany`), Pandas preprocessing   |
-| **Schema design**     | 3NF over 8 base tables + 2 junction tables, 12 foreign-key constraints |
+| **Schema design**     | 3NF over 8 tables (including 2 junction tables), 12 foreign-key constraints |
 
 The reporting logic lives in SQL rather than a pandas script on purpose: it sits next to the data, stays reproducible, and can be handed to anyone who reads SQL. Normalizing the denormalized Synthea export to 3NF removed the repeated patient/provider/encounter attributes that make update anomalies inevitable and analytical queries slow.
 
