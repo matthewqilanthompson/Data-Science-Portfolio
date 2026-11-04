@@ -27,7 +27,7 @@ This is a **Master's Data Science portfolio** demonstrating academic projects ac
 
 ### Key Technology Combinations
 
-- **R Projects**: Use RMarkdown (`.Rmd`) or Quarto (`.qmd`) for documentation, ggplot2 for visualization, Shiny for dashboards
+- **R Projects**: Use RMarkdown (`.Rmd`) or Quarto (`.qmd`) for documentation and ggplot2 for visualization
 - **Python Data Science**: Jupyter notebooks (`.ipynb`) with Quarto for publishing to HTML/websites
 - **Automation**: Shell scripts use `#!/usr/bin/env bash` or `#!/usr/bin/env zsh` - maintain this convention
 
@@ -43,14 +43,6 @@ quarto publish gh-pages    # Deploy to GitHub Pages
 ```
 
 **Key files**: `_quarto.yml` defines website structure, navigation, and rendering options. The `index.ipynb` is the main analysis notebook.
-
-### Running R Shiny Dashboards
-
-```bash
-R -e "shiny::runApp('projects/r-analytics/sales-dashboard')"
-```
-
-**Pattern**: Self-contained `app.R` files with UI and server in single file. Uses `shinydashboard`, `plotly`, `DT`, and `dplyr`.
 
 ### Python Environment Setup
 
