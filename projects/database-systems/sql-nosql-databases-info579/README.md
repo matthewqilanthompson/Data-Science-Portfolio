@@ -44,7 +44,7 @@ The project answered five business questions, each with its own report:
 | Objective                | Key finding                                                                                       |
 | ------------------------ | ------------------------------------------------------------------------------------------------- |
 | **Profitability**        | Top patient costs reached $1.1M; medication reconciliation and renal dialysis were most common    |
-| **Clinical quality**     | Viral sinusitis most prevalent (63%); emergency 30-day mortality 3.57 per 1,000 encounters        |
+| **Clinical quality**     | Viral sinusitis most prevalent (63% of patients); 30-day mortality highest for inpatient (39.7 per 1,000) and emergency (27.3 per 1,000) encounters        |
 | **Provider utilization** | Severe workload imbalance (top provider 3,000+ encounters vs. under 2,000 for the rest)           |
 | **Readmissions**         | Flagged high-risk ER patients (3+ visits) for intervention                                        |
 | **Expansion**            | Identified 5 inactive specialties for reallocation                                                |

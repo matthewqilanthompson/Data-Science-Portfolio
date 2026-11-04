@@ -22,17 +22,17 @@
 
 ## Featured Projects
 
-Each project below documents a deliberate model-selection decision and the real-world outcome it produced. Full methodology, code, and reproducibility details live in each project's own README.
+Each project below documents a deliberate model-selection decision and the outcome it produced. Full methodology, code, and reproducibility details live in each project's own README.
 
 ### [Healthcare Analytics with SQL](./projects/database-systems/sql-nosql-databases-info579/)
 
 **Relational database design and analytical reporting on 53,346 patient encounters** · _Graduate project · University of Arizona_
 
-Designed Third Normal Form (3NF) schemas across 6 entities for 1,171 patients and 53,346 encounters from a ~65MB Synthea synthetic electronic health record (EHR) dataset, then wrote 6 documented analytical reports against 5 business objectives: profitability, clinical quality, provider utilization, readmission reduction, and strategic expansion. End-to-end reproducible via Docker.
+Designed an 8-table Third Normal Form (3NF) schema, built from 6 source files, for 1,171 patients and 53,346 encounters from a ~65MB Synthea synthetic electronic health record (EHR) dataset, then wrote 6 documented analytical reports against 5 business objectives: profitability, clinical quality, provider utilization, readmission reduction, and strategic expansion. End-to-end reproducible via Docker.
 
 **Why 3NF, and why SQL over pandas**: the source EHR data arrived denormalized, with patient, provider, encounter, and condition attributes repeated across rows, which makes update anomalies inevitable and analytical queries slow. Normalizing to 3NF eliminated the redundancy and let each business question be answered by a query against the schema rather than a bespoke script. The reporting logic lives in SQL (multi-table joins, common table expressions, correlated subqueries, temporal analysis with DATE_ADD and TIMESTAMPDIFF) because it belongs next to the data, stays reproducible, and can be handed to anyone who reads SQL.
 
-**Outcome**: the reports surfaced findings an operations team could act on. Provider workload was badly imbalanced (the busiest provider handled 3,000+ encounters while peers stayed under 2,000), and a cohort of high-risk, high-frequency emergency patients was flagged for follow-up. Clinical-quality reporting put viral sinusitis at 63% of cases and the emergency 30-day mortality rate at 3.57 per 1,000. A LEFT JOIN check against `encounter` found that 10.13% of observation rows had no encounter ID recorded; those rows load as explicit NULLs, and the rate is documented so encounter-level reporting accounts for the gap.
+**Outcome**: the reports surfaced findings an operations team could act on. Provider workload was badly imbalanced (the busiest provider handled 3,000+ encounters while peers stayed under 2,000), and a cohort of high-risk, high-frequency emergency patients was flagged for follow-up. Clinical-quality reporting found viral sinusitis in 63% of patients, and a 30-day mortality rate per 1,000 encounters put inpatient (39.7) and emergency (27.3) care at the top. A LEFT JOIN check against `encounter` found that 10.13% of observation rows had no encounter ID recorded; those rows load as explicit NULLs, and the rate is documented so encounter-level reporting accounts for the gap.
 
 **Tech**: MySQL • SQL (joins, CTEs, correlated subqueries, temporal analysis) • 3NF schema design • Python / pandas (validation) • Docker · [Read the project →](./projects/database-systems/sql-nosql-databases-info579/)
 
@@ -108,14 +108,14 @@ Classification across 5 superphyla (Ecdysozoa, Lophotrochozoa, Deuterostomia, Ba
 | **SQL & Databases**  | SQL / Structured Query Language (multi-table joins, aggregations, temporal analysis) • MySQL • Database design (Third Normal Form / 3NF) • Common Table Expressions (CTEs) • Correlated subqueries • ETL |
 | **Data Quality**     | Data validation & reconciliation • integrity checks (unlinked-record detection) • data-leakage detection • cross-validation |
 | **Languages**        | SQL • Python (machine-learning pipelines, data processing) • R (statistical analysis, visualization) |
-| **Data Analysis**    | Pandas (data manipulation, wrangling and preparation) • NumPy (numerical computing) • tidyverse (data transformation) • dplyr (data wrangling) • Excel |
+| **Data Analysis**    | Pandas (data manipulation, wrangling and preparation) • NumPy (numerical computing) • tidyverse (data transformation) • dplyr (data wrangling) • Excel (research use) |
 | **Visualization & Reporting** | ggplot2 (statistical plots) • Matplotlib • ggalluvial (flow diagrams) • viridis (color palettes) • analytical report writing |
 | **Statistics**       | Linear regression • ANOVA • hypothesis testing • experimental design • repeatability analysis |
 | **Machine Learning** | Scikit-learn (model training, evaluation) • Random Forest (classification) • Logistic Regression • SHAP / SHapley Additive exPlanations (model explainability) |
 | **Deep Learning**    | Keras / TensorFlow (neural network architecture) • Hugging Face Transformers • RoBERTa fine-tuning • Convolutional neural networks (CNNs) • Multi-label classification |
 | **Development**      | Git (version control) • Docker • Jupyter (interactive analysis) • RMarkdown (reproducible reports) • Quarto (publishing workflows) |
 
-### Domain Experience
+### Where I've applied it
 
 | Domain | Where applied |
 |---|---|
