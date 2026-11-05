@@ -1,7 +1,9 @@
+<p align="center"><img src="assets/portfolio-banner.png" width="800" alt="Pixel art pipeline: microscope, database, ROC curve, family tree and research poster, linked by dotted data-flow arrows"></p>
+
 # Matthew Thompson - Data Science Portfolio
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/matthewqilanthompson/)
-[![Email](https://img.shields.io/badge/Contact-Email-D14836?style=for-the-badge&logo=gmail)](mailto:matthewqilanthompson.work@gmail.com)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=flat&logo=linkedin)](https://www.linkedin.com/in/matthewqilanthompson/)
+[![Email](https://img.shields.io/badge/Contact-Email-D14836?style=flat&logo=gmail)](mailto:matthewqilanthompson.work@gmail.com)
 
 > **M.S. Data Science** · University of Arizona (May 2026) · B.S. Biology · [See full bio](https://github.com/matthewqilanthompson)
 
@@ -14,17 +16,17 @@
 
 **Navigation**: [Projects](#featured-projects) • [Skills](#skills) • [Connect](#connect)
 
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![R](https://img.shields.io/badge/R-276DC3?style=for-the-badge&logo=r&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
-![Scikit-Learn](https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
-![ggplot2](https://img.shields.io/badge/ggplot2-E34F26?style=for-the-badge&logo=r&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
+![R](https://img.shields.io/badge/R-276DC3?style=flat&logo=r&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white)
+![Scikit-Learn](https://img.shields.io/badge/scikit--learn-F7931E?style=flat&logo=scikit-learn&logoColor=white)
+![ggplot2](https://img.shields.io/badge/ggplot2-E34F26?style=flat&logo=r&logoColor=white)
 
-## Featured Projects
+## <img src="assets/icons/projects.png" width="32" height="32" alt=""> Featured Projects
 
 Each project below documents a deliberate model-selection decision and the outcome it produced. Full methodology, code, and reproducibility details live in each project's own README.
 
-### [Healthcare Analytics with SQL](./projects/database-systems/sql-nosql-databases-info579/)
+### <img src="assets/icons/sql.png" width="32" height="32" alt=""> [Healthcare Analytics with SQL](./projects/database-systems/sql-nosql-databases-info579/)
 
 **Relational database design and analytical reporting on 53,346 patient encounters** · _Graduate project · University of Arizona_
 
@@ -34,11 +36,18 @@ Designed an 8-table Third Normal Form (3NF) schema, built from 6 source files, f
 
 **Outcome**: the reports surfaced findings an operations team could act on. Provider workload was badly imbalanced (the busiest provider handled 3,000+ encounters while peers stayed under 2,000), and a cohort of high-risk, high-frequency emergency patients was flagged for follow-up. Clinical-quality reporting found viral sinusitis in 63% of patients, and a 30-day mortality rate per 1,000 encounters put inpatient (39.7) and emergency (27.3) care at the top. A LEFT JOIN check against `encounter` found that 10.13% of observation rows had no encounter ID recorded; those rows load as explicit NULLs, and the rate is documented so encounter-level reporting accounts for the gap.
 
+<table>
+<tr>
+<td width="50%" valign="top"><a href="./projects/database-systems/sql-nosql-databases-info579/images/schema_er_diagram.png"><img src="./projects/database-systems/sql-nosql-databases-info579/images/schema_er_diagram.png" alt="The 8 base tables and their foreign-key relationships"></a><br><sub>The 8 base tables and their foreign-key relationships</sub></td>
+<td width="50%" valign="top"><a href="./projects/database-systems/sql-nosql-databases-info579/images/top_providers.png"><img src="./projects/database-systems/sql-nosql-databases-info579/images/top_providers.png" alt="Top 10 providers by encounter count"></a><br><sub>Top 10 providers by encounter count</sub></td>
+</tr>
+</table>
+
 **Tech**: MySQL • SQL (joins, CTEs, correlated subqueries, temporal analysis) • 3NF schema design • Python / pandas (validation) • Docker · [Read the project →](./projects/database-systems/sql-nosql-databases-info579/)
 
 ---
 
-### [Healthcare Readmission Prediction Competition](./projects/data-science/foundation-of-data-science/)
+### <img src="assets/icons/readmission.png" width="32" height="32" alt=""> [Healthcare Readmission Prediction Competition](./projects/data-science/foundation-of-data-science/)
 
 **30-day hospital readmission prediction** · _Graduate project · University of Arizona_
 
@@ -58,7 +67,7 @@ The score dropped from 0.901 in the dev phase to 0.858 on the test. That drop is
 
 ---
 
-### [Multi-Label Emotion Classification with Transformer Fine-Tuning](./projects/deep-learning/emotion-classification-info557/)
+### <img src="assets/icons/emotion.png" width="32" height="32" alt=""> [Multi-Label Emotion Classification with Transformer Fine-Tuning](./projects/deep-learning/emotion-classification-info557/)
 
 **14-label text classification competition** · _Graduate project · University of Arizona_
 
@@ -78,7 +87,7 @@ The post-grading study showed that was a representation problem rather than an a
 
 ---
 
-### [Trait-Based Prediction of Animal Taxa](./projects/data-science/data-mining-final-project/)
+### <img src="assets/icons/taxa.png" width="32" height="32" alt=""> [Trait-Based Prediction of Animal Taxa](./projects/data-science/data-mining-final-project/)
 
 **Machine-learning classification of animal taxa from evolutionary traits (1,087 families; 84 phylum-level rate estimates)** · _Graduate project · University of Arizona_
 
@@ -88,20 +97,29 @@ Classification across 5 superphyla (Ecdysozoa, Lophotrochozoa, Deuterostomia, Ba
 
 **Outcome**: the best model (Logistic Regression on evolutionary-rate data) reached macro F1 0.31 and balanced accuracy 0.32 on the 5-class taxonomy (chance ≈ 0.20), versus macro F1 ~0.13 on the binary data. That is limited signal: the rate-data test set had only 28 rows, and a random-forest 5-fold cross-validation on the same data scored macro F1 0.19, near chance. The best rate-data model still outperformed every binary-data model.
 
+<p align="center"><a href="./projects/data-science/data-mining-final-project/images/Plots/SHAP_evolution.png"><img src="./projects/data-science/data-mining-final-project/images/Plots/SHAP_evolution.png" width="480" alt="SHAP on evolutionary-rate data: Visual (V), Competition (C), Auditory (A) strongest"></a><br><sub>SHAP on evolutionary-rate data: Visual (V), Competition (C), Auditory (A) strongest</sub></p>
+
 **Tech**: Python • Scikit-learn • SHAP • Stratified K-fold cross-validation · [Read the project →](./projects/data-science/data-mining-final-project/)
 
 ---
 
-## Other Projects
+## <img src="assets/icons/presentations.png" width="32" height="32" alt=""> Other Projects
 
 | Project | What it shows | Tech |
 |---|---|---|
 | [**Data Visualization Portfolio**](./projects/r-analytics/data-visualization-portfolio/) | Wildlife predation, occupational safety, and housing economics analyses with chart-selection rationale (alluvial diagrams, line graphs, grouped bars) | R · ggplot2 · ggalluvial · RMarkdown |
 | [**AI4HC Capstone: Rural Health Kiosk Showcase Poster**](./projects/capstone/ai4hc-info698/) | Light/dark theme HTML poster and Python print-export pipeline (headless Chrome → 48×36 in PDF) for a team capstone at the University of Arizona AI Core | HTML · CSS · Python |
 
+<table>
+<tr>
+<td width="50%" valign="top"><a href="./projects/r-analytics/data-visualization-portfolio/images/figure-3-dangerous-jobs.png"><img src="./projects/r-analytics/data-visualization-portfolio/images/figure-3-dangerous-jobs.png" alt="Figure 3: top 5 most dangerous occupations: trends + cause-of-fatality flows"></a><br><sub>Figure 3: top 5 most dangerous occupations: trends + cause-of-fatality flows</sub></td>
+<td width="50%" valign="top"><a href="./projects/capstone/ai4hc-info698/system_workflow.png"><img src="./projects/capstone/ai4hc-info698/system_workflow.png" alt="System architecture diagram from the team's showcase poster"></a><br><sub>System architecture diagram from the team's showcase poster</sub></td>
+</tr>
+</table>
+
 ---
 
-## Skills
+## <img src="assets/icons/skills.png" width="32" height="32" alt=""> Skills
 
 | Category             | Tools & Libraries                                                                                                                   |
 | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
@@ -124,8 +142,8 @@ Classification across 5 superphyla (Ecdysozoa, Lophotrochozoa, Deuterostomia, Ba
 
 ---
 
-## Connect
+## <img src="assets/icons/connect.png" width="32" height="32" alt=""> Connect
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/matthewqilanthompson/)
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/matthewqilanthompson)
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:matthewqilanthompson.work@gmail.com)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/matthewqilanthompson/)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)](https://github.com/matthewqilanthompson)
+[![Email](https://img.shields.io/badge/Email-D14836?style=flat&logo=gmail&logoColor=white)](mailto:matthewqilanthompson.work@gmail.com)
