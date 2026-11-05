@@ -45,6 +45,8 @@ Designed an 8-table Third Normal Form (3NF) schema, built from 6 source files, f
 
 **Tech**: MySQL • SQL (joins, CTEs, correlated subqueries, temporal analysis) • 3NF schema design • Python / pandas (validation) • Docker · [Read the project →](./projects/database-systems/sql-nosql-databases-info579/)
 
+**See the work**: [Full report (PDF)](./projects/database-systems/sql-nosql-databases-info579/reports/INFO579-Final-Project-Report-Thompson.pdf) · [Schema (SQL)](./projects/database-systems/sql-nosql-databases-info579/sql/00_schema.sql) · [The 6 analytical reports (SQL)](./projects/database-systems/sql-nosql-databases-info579/sql/analytical_reports/)
+
 ---
 
 ### <img src="assets/icons/readmission.png" width="32" height="32" alt=""> [Healthcare Readmission Prediction Competition](./projects/data-science/foundation-of-data-science/)
@@ -64,6 +66,8 @@ It also surfaces feature importance, and it proved more stable across cross-vali
 The score dropped from 0.901 in the dev phase to 0.858 on the test. That drop is honest generalization rather than a failure: the cross-validated estimate predicted the test result almost exactly, so the model held up on data it had never seen.
 
 **Tech**: Python • Scikit-learn • Pandas • Random Forest • Stratified Cross-Validation · [Read the project →](./projects/data-science/foundation-of-data-science/)
+
+**See the work**: [Main analysis notebook](./projects/data-science/foundation-of-data-science/final_project_process.ipynb) · [Browser-readable version](./projects/data-science/foundation-of-data-science/final_project_process.md) · [Training + prediction CLI](./projects/data-science/foundation-of-data-science/train_predict.py)
 
 ---
 
@@ -85,6 +89,8 @@ The post-grading study showed that was a representation problem rather than an a
 
 **Tech**: Python • Keras / TensorFlow • Conv1D CNN • 5-seed ensemble • 5x rare-class duplication • RoBERTa fine-tuning (post-grading study) · [Read the project →](./projects/deep-learning/emotion-classification-info557/)
 
+**See the work**: [Submitted model: training pipeline](./projects/deep-learning/emotion-classification-info557/train_dev.py) · [EDA notebook](./projects/deep-learning/emotion-classification-info557/eda.ipynb) · [Post-grading experiments](./projects/deep-learning/emotion-classification-info557/experiments/)
+
 ---
 
 ### <img src="assets/icons/taxa.png" width="32" height="32" alt=""> [Trait-Based Prediction of Animal Taxa](./projects/data-science/data-mining-final-project/)
@@ -101,6 +107,8 @@ Classification across 5 superphyla (Ecdysozoa, Lophotrochozoa, Deuterostomia, Ba
 
 **Tech**: Python • Scikit-learn • SHAP • Stratified K-fold cross-validation · [Read the project →](./projects/data-science/data-mining-final-project/)
 
+**See the work**: [Live project website](https://info-523-su25.github.io/final-project-thompson/) · [Analysis notebook](./projects/data-science/data-mining-final-project/index.ipynb)
+
 ---
 
 ## <img src="assets/icons/presentations.png" width="32" height="32" alt=""> Other Projects
@@ -112,8 +120,8 @@ Classification across 5 superphyla (Ecdysozoa, Lophotrochozoa, Deuterostomia, Ba
 
 <table>
 <tr>
-<td width="50%" valign="top"><a href="./projects/r-analytics/data-visualization-portfolio/images/figure-3-dangerous-jobs.png"><img src="./projects/r-analytics/data-visualization-portfolio/images/figure-3-dangerous-jobs.png" alt="Figure 3: top 5 most dangerous occupations: trends + cause-of-fatality flows"></a><br><sub>Figure 3: top 5 most dangerous occupations: trends + cause-of-fatality flows</sub></td>
-<td width="50%" valign="top"><a href="./projects/capstone/ai4hc-info698/system_workflow.png"><img src="./projects/capstone/ai4hc-info698/system_workflow.png" alt="System architecture diagram from the team's showcase poster"></a><br><sub>System architecture diagram from the team's showcase poster</sub></td>
+<td width="50%" valign="top"><a href="./projects/r-analytics/data-visualization-portfolio/images/figure-3-dangerous-jobs.png"><img src="./projects/r-analytics/data-visualization-portfolio/images/figure-3-dangerous-jobs.png" alt="Figure 3: top 5 most dangerous occupations: trends + cause-of-fatality flows"></a><br><sub>Figure 3: top 5 most dangerous occupations: trends + cause-of-fatality flows</sub><br><a href="./projects/r-analytics/data-visualization-portfolio/reports/MatthewThompson_Final_Portfolio.pdf">Complete portfolio (PDF)</a> · <a href="./projects/r-analytics/data-visualization-portfolio/Final-Portfolio-Assignment.Rmd">R Markdown source</a></td>
+<td width="50%" valign="top"><a href="./projects/capstone/ai4hc-info698/system_workflow.png"><img src="./projects/capstone/ai4hc-info698/system_workflow.png" alt="System architecture diagram from the team's showcase poster"></a><br><sub>System architecture diagram from the team's showcase poster</sub><br><a href="./projects/capstone/ai4hc-info698/iShowcase_Final.pdf">Final showcase poster (PDF)</a></td>
 </tr>
 </table>
 
