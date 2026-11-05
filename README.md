@@ -14,7 +14,7 @@
 - **Healthcare SQL**: Third Normal Form (3NF) database design and 6 analytical SQL reports across **53,346 patient encounters**. The reports surfaced a provider workload imbalance and a high-risk patient cohort.
 - **Readmission model**: a Random Forest predicting 30-day hospital readmission at **ROC AUC 0.858** on the final held-out test, trained on 587,801 rows of synthetic electronic health record (EHR) data. ROC AUC is a ranking score where 1.0 is perfect, so 0.858 means the model ranks a high-risk patient above a low-risk one about 86% of the time.
 
-**Navigation**: [Projects](#featured-projects) • [Skills](#skills) • [Connect](#connect)
+**Navigation**: [Projects](#-featured-projects) • [Research](#-research) • [Skills](#-skills) • [Connect](#-connect)
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
 ![R](https://img.shields.io/badge/R-276DC3?style=flat&logo=r&logoColor=white)
@@ -108,6 +108,16 @@ Classification across 5 superphyla (Ecdysozoa, Lophotrochozoa, Deuterostomia, Ba
 **Tech**: Python • Scikit-learn • SHAP • Stratified K-fold cross-validation · [Read the project →](./projects/data-science/data-mining-final-project/)
 
 **See the work**: [Live project website](https://info-523-su25.github.io/final-project-thompson/) · [Analysis notebook](./projects/data-science/data-mining-final-project/index.ipynb)
+
+---
+
+## <img src="assets/icons/research.png" width="32" height="32" alt=""> Research
+
+### Impact of Temperature Variation on Color Polymorphism and Behavior in Grasshoppers
+
+**Poster (preliminary results)** · 2024 Society for Integrative and Comparative Biology (SICB) Conference · Matthew Q. Thompson and Michael Reichert · _Oklahoma State University, NSF ON-RaMP_
+
+Ran a temperature experiment on *Syrbula admirabilis* (juveniles reared at 28°C vs. 34°C), quantifying body color with photo analysis and spectrophotometry and measuring repeated behavior trials. Extracted, cleaned, and validated 174 raw spectral files in R with the `pavo` package (300–700 nm), built the statistical models in R (regression, analysis of variance, repeatability), and wrote a Python automation script. The poster presented interim results while the study was still in progress; the final analysis is in a co-authored manuscript, currently under peer review.
 
 ---
 
