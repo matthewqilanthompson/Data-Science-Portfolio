@@ -11,7 +11,7 @@
 
 ---
 
-## [Multi-Label Emotion Classification with Transformer Fine-Tuning](./emotion-classification-info557/)
+## [Multi-Label Emotion Classification (CNN, plus a RoBERTa follow-up study)](./emotion-classification-info557/)
 
 **INFO 557 - Neural Networks** | Final Project + Post-Grading Study
 

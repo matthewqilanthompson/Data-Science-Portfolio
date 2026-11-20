@@ -1,20 +1,15 @@
 <p align="center"><img src="assets/portfolio-banner.png" width="800" alt="Pixel art pipeline: microscope, database, ROC curve, family tree and research poster, linked by dotted data-flow arrows"></p>
 
-# Matthew Thompson - Data Science Portfolio
+# Matthew Thompson: Biology + Data Science Portfolio
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=flat&logo=linkedin)](https://www.linkedin.com/in/matthewqilanthompson/)
 [![Email](https://img.shields.io/badge/Contact-Email-D14836?style=flat&logo=gmail)](mailto:matthewqilanthompson.work@gmail.com)
 
-> **M.S. Data Science** · University of Arizona (May 2026) · B.S. Biology · [See full bio](https://github.com/matthewqilanthompson)
+> **Data Analyst** · M.S. Data Science, University of Arizona (May 2026) · B.S. Biology, Gallaudet University · SQL · Python · R · [See full bio](https://github.com/matthewqilanthompson)
 
----
+I clean, validate and analyze research and health data. Before data science I spent two research internships counting, measuring and modeling biological data, and I found I enjoyed the data side most.
 
-**Highlights**
-
-- **Healthcare SQL**: Third Normal Form (3NF) database design and 6 analytical SQL reports across **53,346 patient encounters**. The reports surfaced a provider workload imbalance and a high-risk patient cohort.
-- **Readmission model**: a Random Forest predicting 30-day hospital readmission at **ROC AUC 0.858** on the final held-out test, trained on 587,801 rows of synthetic electronic health record (EHR) data. ROC AUC is a ranking score where 1.0 is perfect, so 0.858 means the model ranks a high-risk patient above a low-risk one about 86% of the time.
-
-**Navigation**: [Projects](#-featured-projects) • [Research](#-research) • [Skills](#-skills) • [Connect](#-connect)
+**Navigation**: [Start here](#-start-here) • [Health data](#-health-data) • [Biology research](#-biology-research) • [Methods](#-methods-projects) • [Skills](#-skills) • [Connect](#-connect)
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
 ![R](https://img.shields.io/badge/R-276DC3?style=flat&logo=r&logoColor=white)
@@ -22,19 +17,53 @@
 ![Scikit-Learn](https://img.shields.io/badge/scikit--learn-F7931E?style=flat&logo=scikit-learn&logoColor=white)
 ![ggplot2](https://img.shields.io/badge/ggplot2-E34F26?style=flat&logo=r&logoColor=white)
 
-## <img src="assets/icons/projects.png" width="32" height="32" alt=""> Featured Projects
+## <img src="assets/icons/projects.png" width="32" height="32" alt=""> Start here
 
-Each project below documents a deliberate model-selection decision and the outcome it produced. Full methodology, code, and reproducibility details live in each project's own README.
+| If you have one minute | What it shows |
+|---|---|
+| [**Readmission model: catching a data leak**](#healthcare-readmission-prediction) | An early model scored a perfect 1.0. I treated that as a bug, found the leaked target data, and re-validated to ROC AUC 0.858 on a held-out test |
+| [**Healthcare SQL database**](#healthcare-analytics-with-sql) | An 8-table database built from synthetic health records, with 6 documented SQL reports and a documented data-quality check |
+| [**REU poster: microbes on marine snow**](#microbial-abundance-on-marine-snow-nsf-reu) | Lab counts from 63 sample tubes, analyzed in R, and a result that did not match a published study |
 
-### <img src="assets/icons/sql.png" width="32" height="32" alt=""> [Healthcare Analytics with SQL](./projects/database-systems/sql-nosql-databases-info579/)
+Each project below follows the same order: the question, the data, what I did, the result and its limits.
 
-**Relational database design and analytical reporting on 53,346 patient encounters** · _Graduate project · University of Arizona_
+---
 
-Designed an 8-table Third Normal Form (3NF) schema, built from 6 source files, for 1,171 patients and 53,346 encounters from a ~65MB Synthea synthetic electronic health record (EHR) dataset, then wrote 6 documented analytical reports against 5 business objectives: profitability, clinical quality, provider utilization, readmission reduction, and strategic expansion. End-to-end reproducible via Docker.
+## <img src="assets/icons/readmission.png" width="32" height="32" alt=""> Health data
 
-**Why 3NF, and why SQL over pandas**: the source EHR data arrived denormalized, with patient, provider, encounter, and condition attributes repeated across rows, which makes update anomalies inevitable and analytical queries slow. Normalizing to 3NF eliminated the redundancy and let each business question be answered by a query against the schema rather than a bespoke script. The reporting logic lives in SQL (multi-table joins, common table expressions, correlated subqueries, temporal analysis with DATE_ADD and TIMESTAMPDIFF) because it belongs next to the data, stays reproducible, and can be handed to anyone who reads SQL.
+### Healthcare Readmission Prediction
 
-**Outcome**: the reports surfaced findings an operations team could act on. Provider workload was badly imbalanced (the busiest provider handled 3,000+ encounters while peers stayed under 2,000), and a cohort of high-risk, high-frequency emergency patients was flagged for follow-up. Clinical-quality reporting found viral sinusitis in 63% of patients, and a 30-day mortality rate per 1,000 encounters put inpatient (39.7) and emergency (27.3) care at the top. A LEFT JOIN check against `encounter` found that 10.13% of observation rows had no encounter ID recorded; those rows load as explicit NULLs, and the rate is documented so encounter-level reporting accounts for the gap.
+**Question:** which hospital encounters will lead to a readmission within 30 days? · _Graduate project, INFO 511 class competition · University of Arizona_
+
+**Data:** synthetic electronic health record (EHR) data generated with Synthea: 587,801 training encounters and 125,958 dev encounters.
+
+**What I did:** compared 9 algorithms with stratified 5-fold cross-validation and built a Random Forest with patient-frequency encoding. Missing medication counts, procedure costs, pain scores and height were mean-imputed, and `class_weight='balanced'` handled the uneven target.
+
+**The leak:** an early version scored a perfect 1.0. Instead of taking the win, I went looking for the mistake: a feature aggregated the target column by patient. I removed it and re-validated until the number was real.
+
+**Why Random Forest:** HistGradientBoosting scored highest in cross-validation (ROC AUC 0.862), with Random Forest close behind (0.841) and the smallest fold-to-fold spread (±0.0015). I chose Random Forest for its simplicity and stability.
+
+**Result:** ROC AUC 0.858 on the final held-out test (0.901 in the dev phase). ROC AUC is a ranking score where 1.0 is perfect, so 0.858 means the model ranks a readmitted encounter above a non-readmitted one about 86% of the time. The tuned model's cross-validated score (0.859) predicted the test result almost exactly.
+
+**Limits:** the data is synthetic, so the model says nothing about real patients; it shows the workflow.
+
+**Tech**: Python • Scikit-learn • Pandas • Random Forest • Stratified Cross-Validation · [Read the project →](./projects/data-science/foundation-of-data-science/)
+
+**See the work**: [Main analysis notebook](./projects/data-science/foundation-of-data-science/final_project_process.ipynb) · [Browser-readable version](./projects/data-science/foundation-of-data-science/final_project_process.md) · [Training + prediction CLI](./projects/data-science/foundation-of-data-science/train_predict.py)
+
+---
+
+### Healthcare Analytics with SQL
+
+**Question:** which providers are overloaded, which patients come back most, and where is care riskiest? · _Graduate project, INFO 579 · University of Arizona_
+
+**Data:** a ~65MB Synthea synthetic EHR dataset: 1,171 patients and 53,346 encounters from 6 source files.
+
+**What I did:** designed an 8-table Third Normal Form (3NF) schema, loaded it with a Python loader, checked the table relationships in pandas, and wrote 6 documented analytical reports against 5 business objectives: profitability, clinical quality, provider utilization, readmission reduction, and strategic expansion. The reports use multi-table joins, common table expressions, correlated subqueries and temporal analysis (DATE_ADD, TIMESTAMPDIFF). The whole project reproduces with one Docker command.
+
+**Data quality:** a LEFT JOIN check against `encounter` found that 10.13% of observation rows had no encounter ID recorded. Those rows load as explicit NULLs, and the rate is documented so encounter-level reporting accounts for the gap.
+
+**Result (on synthetic data):** the reports surfaced the kind of findings an operations team would act on. Provider workload was badly imbalanced (the busiest provider handled 3,000+ encounters while peers stayed under 2,000), and a cohort of high-risk, frequent emergency patients was flagged for follow-up. Viral sinusitis appeared in 63% of patients, and 30-day mortality per 1,000 encounters was highest for inpatient (39.7) and emergency (27.3) care.
 
 <table>
 <tr>
@@ -49,59 +78,45 @@ Designed an 8-table Third Normal Form (3NF) schema, built from 6 source files, f
 
 ---
 
-### <img src="assets/icons/readmission.png" width="32" height="32" alt=""> [Healthcare Readmission Prediction Competition](./projects/data-science/foundation-of-data-science/)
+## <img src="assets/icons/research.png" width="32" height="32" alt=""> Biology research
 
-**30-day hospital readmission prediction** · _Graduate project · University of Arizona_
+### Microbial Abundance on Marine Snow (NSF REU)
 
-Random Forest classifier with patient-frequency encoding on synthetic electronic health record (EHR) data: 587,801 training encounters and 125,958 dev encounters.
+**Question:** do bacteria on sinking ocean particles ("marine snow") become scarcer with depth, and do smaller particles carry more of them? · _NSF REU, Maryland Sea Grant (Horn Point Laboratory), summer 2022; extended into an Honors thesis at Gallaudet University_
 
-It scored ROC AUC 0.901 in the dev phase and 0.858 on the final held-out test, after comparing 9 algorithms with stratified cross-validation.
+**Data:** stored samples from a 2019 East Pacific Rise research cruise, from 4 m to 2,369 m deep.
 
-**Why Random Forest**: EHR data is tabular, mixes numeric and categorical features, has missing medication counts, and is class-imbalanced. Random Forest handles all of that natively.
+**What I did:** processed and counted 63 sample tubes with DAPI staining and epifluorescence microscopy, then managed and analyzed the counts in R and Excel.
 
-It also surfaces feature importance, and it proved more stable across cross-validation folds than Gradient Boosting did.
+**Result:** no correlation between particle size and abundance. Abundance fell until about 300 m and then rose again in deep water, which did not match a published study (Bergauer et al. 2018); I named possible reagent contamination as one explanation.
 
-**Outcome**: ROC AUC 0.858 on the held-out test means the model ranks a high-risk patient above a low-risk one about 86% of the time.
+<p align="center"><a href="./projects/research/reu-marine-snow/images/fig3-abundance-by-depth.png"><img src="./projects/research/reu-marine-snow/images/fig3-abundance-by-depth.png" width="420" alt="Bacterial abundance by depth, colored by sampling site and sized by particle size"></a><br><sub>Bacterial abundance by depth, from the poster</sub></p>
 
-The score dropped from 0.901 in the dev phase to 0.858 on the test. That drop is honest generalization rather than a failure: the cross-validated estimate predicted the test result almost exactly, so the model held up on data it had never seen.
-
-**Tech**: Python • Scikit-learn • Pandas • Random Forest • Stratified Cross-Validation · [Read the project →](./projects/data-science/foundation-of-data-science/)
-
-**See the work**: [Main analysis notebook](./projects/data-science/foundation-of-data-science/final_project_process.ipynb) · [Browser-readable version](./projects/data-science/foundation-of-data-science/final_project_process.md) · [Training + prediction CLI](./projects/data-science/foundation-of-data-science/train_predict.py)
+**Tech**: R • Excel • epifluorescence microscopy · [Read the project →](./projects/research/reu-marine-snow/) · [Poster (PDF)](./projects/research/reu-marine-snow/REU-Marine-Snow-Poster-Thompson.pdf)
 
 ---
 
-### <img src="assets/icons/emotion.png" width="32" height="32" alt=""> [Multi-Label Emotion Classification with Transformer Fine-Tuning](./projects/deep-learning/emotion-classification-info557/)
+### Temperature, Color and Behavior in Grasshoppers (NSF ON-RaMP)
 
-**14-label text classification competition** · _Graduate project · University of Arizona_
+**Question:** does the temperature a grasshopper grows up in change its adult coloration and behavior? · _Post-baccalaureate research, Oklahoma State University, 2023-2024 · Poster at the 2024 Society for Integrative and Comparative Biology (SICB) Conference, with Michael Reichert_
 
-Scored F1 0.672 on the test set, with a dev-to-test gap of only -0.05. F1 is a balanced precision/recall metric where 1.0 is perfect.
+**What I did:** ran a temperature experiment on *Syrbula admirabilis* (juveniles reared at 28°C vs. 34°C), quantifying body color with photo analysis and spectrophotometry and measuring repeated behavior trials. Extracted, cleaned, and validated 174 raw spectral files in R with the `pavo` package (300–700 nm), built the statistical models in R (regression, analysis of variance, repeatability), and wrote a Python script that automated a recurring data-prep task.
 
-Built a 5-seed 1D convolutional neural network (Conv1D / CNN) on a 14-class GoEmotions subset of Reddit text, with calibrated binary cross-entropy (BCE) loss and label smoothing.
-
-**Why Conv1D, then RoBERTa fine-tuning in the post-grading study**: Reddit emotion cues live in bigrams and trigrams, which Conv1D with kernel size 3 captures cleanly (kernel 3 won the dev sweep over 5 and 7). The submitted Conv1D scored 0.65 dev F1. A follow-up 4-variant study, run after grading and never submitted (the course restricted entries to taught techniques), showed end-to-end fine-tuning of RoBERTa, not pretraining or model size alone, was the lever that reached 0.83 dev F1.
-
-**Outcome**: the submitted model held its score from dev to test, with a gap of only -0.05. That is what calibration-aware training buys, and it matters more than chasing a dev score.
-
-It never got the rare classes off the floor, though. Even 5x duplication of the rarest examples only nudged anger to F1 0.154 on test, while annoyance and disapproval stayed at zero.
-
-The post-grading study showed that was a representation problem rather than an architecture one. End-to-end RoBERTa fine-tuning started predicting the classes the submitted model left at zero, and lifted dev F1 to about 0.83.
-
-**Tech**: Python • Keras / TensorFlow • Conv1D CNN • 5-seed ensemble • 5x rare-class duplication • RoBERTa fine-tuning (post-grading study) · [Read the project →](./projects/deep-learning/emotion-classification-info557/)
-
-**See the work**: [Submitted model: training pipeline](./projects/deep-learning/emotion-classification-info557/train_dev.py) · [EDA notebook](./projects/deep-learning/emotion-classification-info557/eda.ipynb) · [Post-grading experiments](./projects/deep-learning/emotion-classification-info557/experiments/)
+**Status:** the poster presented interim results while the study was still in progress; the final analysis is in a co-authored manuscript, currently under peer review, so the data is not posted here.
 
 ---
 
-### <img src="assets/icons/taxa.png" width="32" height="32" alt=""> [Trait-Based Prediction of Animal Taxa](./projects/data-science/data-mining-final-project/)
+### Trait-Based Prediction of Animal Taxa
 
-**Machine-learning classification of animal taxa from evolutionary traits (1,087 families; 84 phylum-level rate estimates)** · _Graduate project · University of Arizona_
+**Question:** which encoding of animal traits better predicts an animal's higher-level group: whether a trait is present, or how fast it evolved? · _Graduate project, INFO 523 (Data Mining & Machine Learning) · University of Arizona_
 
-Classification across 5 superphyla (Ecdysozoa, Lophotrochozoa, Deuterostomia, Basal Metazoa, Basal Bilateria) comparing binary trait presence/absence vs. continuous evolutionary origin rates. The headline finding: the best model on evolutionary-rate features outperformed every model on binary presence/absence. Used SHAP (SHapley Additive exPlanations) for feature importance and balanced metrics to handle class imbalance.
+**Data:** binary trait presence/absence for 1,087 animal families, and 84 phylum-level estimates of evolutionary origin rates, across 5 superphyla (Ecdysozoa, Lophotrochozoa, Deuterostomia, Basal Metazoa, Basal Bilateria).
 
-**Why Logistic Regression over Random Forest and Decision Trees**: Evolutionary-rate features were continuous and approximately linear with respect to taxonomic class, which Logistic Regression's decision boundary fits well. With only 84 phylum-level rate estimates and class imbalance across 5 superphyla, Logistic Regression's calibrated probabilities and interpretable per-trait coefficients gave stronger signal than tree-based models, which over-fit on sparse rare-class samples.
+**What I did:** compared Logistic Regression, Decision Tree and Random Forest on each encoding, used balanced metrics for the class imbalance (Arthropoda is ~84% of the binary data), and used SHAP (SHapley Additive exPlanations) to see which traits drove each model.
 
-**Outcome**: the best model (Logistic Regression on evolutionary-rate data) reached macro F1 0.31 and balanced accuracy 0.32 on the 5-class taxonomy (chance ≈ 0.20), versus macro F1 ~0.13 on the binary data. That is limited signal: the rate-data test set had only 28 rows, and a random-forest 5-fold cross-validation on the same data scored macro F1 0.19, near chance. The best rate-data model still outperformed every binary-data model.
+**Result:** the best rate-data model (Logistic Regression) reached macro F1 0.31 and balanced accuracy 0.32 on the 5-class taxonomy (chance ≈ 0.20), against macro F1 0.09-0.13 for every binary-data model (on a different, larger test set). Random Forest on the rate data tied on balanced accuracy (0.32) with a lower macro F1 (0.23).
+
+**Limits:** this is limited signal. The rate-data test set had only 28 rows, and a random-forest 5-fold cross-validation on the same data scored macro F1 0.19, near chance.
 
 <p align="center"><a href="./projects/data-science/data-mining-final-project/images/Plots/SHAP_evolution.png"><img src="./projects/data-science/data-mining-final-project/images/Plots/SHAP_evolution.png" width="480" alt="SHAP on evolutionary-rate data: Visual (V), Competition (C), Auditory (A) strongest"></a><br><sub>SHAP on evolutionary-rate data: Visual (V), Competition (C), Auditory (A) strongest</sub></p>
 
@@ -111,17 +126,25 @@ Classification across 5 superphyla (Ecdysozoa, Lophotrochozoa, Deuterostomia, Ba
 
 ---
 
-## <img src="assets/icons/research.png" width="32" height="32" alt=""> Research
+## <img src="assets/icons/emotion.png" width="32" height="32" alt=""> Methods projects
 
-### Impact of Temperature Variation on Color Polymorphism and Behavior in Grasshoppers
+### Multi-Label Emotion Classification (CNN, plus a RoBERTa follow-up study)
 
-**Poster (preliminary results)** · 2024 Society for Integrative and Comparative Biology (SICB) Conference · Matthew Q. Thompson and Michael Reichert · _Oklahoma State University, NSF ON-RaMP_
+**Question:** can a model tag Reddit comments with 14 emotions at once? · _Graduate project, INFO 557 class competition · University of Arizona_
 
-Ran a temperature experiment on *Syrbula admirabilis* (juveniles reared at 28°C vs. 34°C), quantifying body color with photo analysis and spectrophotometry and measuring repeated behavior trials. Extracted, cleaned, and validated 174 raw spectral files in R with the `pavo` package (300–700 nm), built the statistical models in R (regression, analysis of variance, repeatability), and wrote a Python automation script. The poster presented interim results while the study was still in progress; the final analysis is in a co-authored manuscript, currently under peer review.
+**What I did:** built a 5-seed ensemble of 1D convolutional neural networks (Conv1D / CNN) on a 14-class GoEmotions subset, with binary cross-entropy loss, label smoothing and a fixed 0.5 threshold instead of one tuned on dev data. Kernel size 3 won the dev sweep over 5 and 7, since emotion cues sit in short word sequences.
+
+**Result:** F1 0.672 on the test set. Re-scoring the saved model on the labeled dev data gave 0.65, so the test score held up; the training logs had shown 0.72, which over-predicted the test. I now trust a re-scored checkpoint over training logs. F1 is a balanced precision/recall metric where 1.0 is perfect.
+
+**Limits and the follow-up:** the submitted model never got the rare classes off the floor. Even 5x duplication of the rarest examples only lifted anger to F1 0.154 on test, while annoyance and disapproval stayed at zero. After grading, I ran a 4-variant study that was never submitted (the course limited entries to taught techniques): end-to-end fine-tuning of RoBERTa started predicting those classes and reached about 0.83 dev F1.
+
+**Tech**: Python • Keras / TensorFlow • Conv1D CNN • 5-seed ensemble • RoBERTa fine-tuning (follow-up study) · [Read the project →](./projects/deep-learning/emotion-classification-info557/)
+
+**See the work**: [Submitted model: training pipeline](./projects/deep-learning/emotion-classification-info557/train_dev.py) · [EDA notebook](./projects/deep-learning/emotion-classification-info557/eda.ipynb) · [Post-grading experiments](./projects/deep-learning/emotion-classification-info557/experiments/)
 
 ---
 
-## <img src="assets/icons/presentations.png" width="32" height="32" alt=""> Other Projects
+### Other projects
 
 | Project | What it shows | Tech |
 |---|---|---|
@@ -149,14 +172,8 @@ Ran a temperature experiment on *Syrbula admirabilis* (juveniles reared at 28°C
 | **Statistics**       | Linear regression • ANOVA • hypothesis testing • experimental design • repeatability analysis |
 | **Machine Learning** | Scikit-learn (model training, evaluation) • Random Forest (classification) • Logistic Regression • SHAP / SHapley Additive exPlanations (model explainability) |
 | **Deep Learning**    | Keras / TensorFlow (neural network architecture) • Hugging Face Transformers • RoBERTa fine-tuning • Convolutional neural networks (CNNs) • Multi-label classification |
+| **Lab & Research**   | Spectral data processing in R (`pavo`) • DAPI staining and epifluorescence microscopy • scientific posters |
 | **Development**      | Git (version control) • Docker • Jupyter (interactive analysis) • RMarkdown (reproducible reports) • Quarto (publishing workflows) |
-
-### Where I've applied it
-
-| Domain | Where applied |
-|---|---|
-| **Healthcare Analytics** | Readmission prediction (synthetic electronic health record data, ROC AUC 0.858 on held-out test, 0.901 on dev) and Third Normal Form (3NF) database design (1,171 patients, 53,346 encounters, 6 documented analytical SQL reports) |
-| **Biological / Life-sciences Data** | Trait-based classification of animal taxa (Master's project) and quantitative research at Oklahoma State University (NSF ON-RaMP, grasshopper coloration and behavior) and Maryland Sea Grant (NSF REU, marine microbial abundance) |
 
 ---
 

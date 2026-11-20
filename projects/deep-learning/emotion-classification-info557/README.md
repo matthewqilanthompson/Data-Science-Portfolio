@@ -1,7 +1,7 @@
 <!-- lint-ok: leaderboard-rank | leaderboard screenshot at ./images/leaderboard-emotion-test.png; the standings are the evidence that dev-leaders overfit and did not submit on test -->
 [← Back to Deep Learning Projects](../README.md)
 
-# Multi-Label Emotion Classification with Transformer Fine-Tuning
+# Multi-Label Emotion Classification (CNN, plus a RoBERTa follow-up study)
 
 ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)
 ![Keras](https://img.shields.io/badge/Keras-D00000?style=flat-square&logo=keras&logoColor=white)
